@@ -1,2 +1,2 @@
-'.editor:not(.mini)':
+'.workspace .editor:not(.mini)':
   'shift-enter': 'comment-newline:newline'
