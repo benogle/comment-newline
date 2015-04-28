@@ -1,9 +1,13 @@
+{CompositeDisposable} = require 'atom'
 
 module.exports =
   activate: (state) ->
-    atom.workspaceView.command 'comment-newline:newline', =>
-      editor = atom.workspace.getActiveEditor()
+    @commandSubscription = atom.commands.add 'atom-text-editor:not(.mini)', 'comment-newline:newline', =>
+      editor = atom.workspace.getActiveTextEditor()
       @insertNewline(editor)
+
+  deactivate: ->
+    @commandSubscription.dispose()
 
   insertNewline: (editor) ->
     currentPosition = editor.getCursorBufferPosition()
