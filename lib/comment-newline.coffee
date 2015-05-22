@@ -11,12 +11,10 @@ module.exports =
 
   insertNewline: (editor) ->
     currentPosition = editor.getCursorBufferPosition()
-    currentLine = editor.lineForBufferRow(currentPosition.row)
+    currentLine = editor.lineTextForBufferRow(currentPosition.row)
 
-    scopes = editor.scopesForBufferPosition(currentPosition)
-    properties = atom.syntax.propertiesForScope(scopes, "editor.commentStart")[0]
-    commentStartString = properties.editor?.commentStart
-    commentEndString = properties.editor?.commentEnd
+    scopeDescriptor = editor.scopeDescriptorForBufferPosition(currentPosition)
+    {commentStartString, commentEndString} = @commentStartAndEndStringsForScope(scopeDescriptor)
 
     textToInsert = null
     textToInsert = commentStartString if commentStartString and not commentEndString?
@@ -24,3 +22,13 @@ module.exports =
     editor.transact =>
       editor.insertNewline()
       editor.insertText(textToInsert) if textToInsert?
+
+  # stolen from lang mode package
+  commentStartAndEndStringsForScope: (scopeDescriptor) ->
+    commentStartEntry = atom.config.getAll('editor.commentStart', {scope: scopeDescriptor})[0]
+    commentEndEntry = null
+    for entry in atom.config.getAll('editor.commentEnd', {scope: scopeDescriptor})
+      commentEndEntry = entity if entry.scopeSelector is commentStartEntry.scopeSelector
+    commentStartString = commentStartEntry?.value
+    commentEndString = commentEndEntry?.value
+    {commentStartString, commentEndString}
