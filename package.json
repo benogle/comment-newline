@@ -2,12 +2,11 @@
   "name": "comment-newline",
   "main": "./lib/comment-newline",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Use shift-enter to create a newline that starts with a comment",
   "repository": "https://github.com/benogle/comment-newline",
   "license": "MIT",
   "engines": {
-    "atom": ">=0.174.0, <2.0.0"
+    "atom": ">=1.0.0, <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
