@@ -23,12 +23,12 @@ module.exports =
       editor.insertNewline()
       editor.insertText(textToInsert) if textToInsert?
 
-  # stolen from lang mode package
   commentStartAndEndStringsForScope: (scopeDescriptor) ->
+    # stolen from lang mode package
     commentStartEntry = atom.config.getAll('editor.commentStart', {scope: scopeDescriptor})[0]
     commentEndEntry = null
     for entry in atom.config.getAll('editor.commentEnd', {scope: scopeDescriptor})
-      commentEndEntry = entity if entry.scopeSelector is commentStartEntry.scopeSelector
+      commentEndEntry = entry if entry?.scopeSelector is commentStartEntry.scopeSelector
     commentStartString = commentStartEntry?.value
     commentEndString = commentEndEntry?.value
     {commentStartString, commentEndString}
